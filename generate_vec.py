@@ -24,7 +24,6 @@ def generate_vec(model,dataloader,unit,bottom_series):
     vecs = np.array(vecs)
     shape = vecs.shape
     vecs = vecs.reshape((shape[0] * shape[1], shape[2]*shape[3]*shape[4]))
-
     return vecs
 
 def generate_all_clean_vecs(class_num,model,testset,unit,bottom_series=0):
@@ -34,12 +33,10 @@ def generate_all_clean_vecs(class_num,model,testset,unit,bottom_series=0):
         targetloader = torch.utils.data.DataLoader(target_set, batch_size=1000, shuffle=True)
         vecs = generate_vec(model, targetloader,unit,bottom_series)
         all_clean_vecs.append(vecs)
-
     return np.array(all_clean_vecs)
 
 def generate_target_clean_vecs(model,testset,unit,bottom_series=0):
     target_set = testset
     targetloader = torch.utils.data.DataLoader(target_set, batch_size=1000, shuffle=True)
     target_clean_vecs = generate_vec(model, targetloader, unit, bottom_series)
-
     return target_clean_vecs
