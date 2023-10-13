@@ -236,7 +236,6 @@ if __name__ == '__main__':
     dl_train_set = CIFAR10(trn_x,trn_y,transform=transform_for_train)
     val_x,val_y = prepared_data(testset)
     dl_val_set = CIFAR10(val_x,val_y,transform=transform_for_test)
-
     is_binary = False
     need_pad = False
 
