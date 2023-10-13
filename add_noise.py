@@ -64,6 +64,19 @@ def add_noise_multi(vec,normal_vecs): # noise scheme for 4-participant VFL
     
     return vec.reshape(size)
 
+def save(vecs,label,normal=False):
+    vecs = vecs.reshape(-1, 64*4*8)
+    if normal:
+        f = open('normal_vec_%d.csv' % label, 'w')
+    else:
+        f = open('noise_vec_%d.csv' % label, 'w')
+    for i in range(20):
+        for j in range(vecs.shape[1]):
+            f.write(str(vecs[i][j].item()))
+            f.write(',')
+        f.write('\n')
+    f.close()
+
 def attack_model(model, dataloader, vec_arr,label):
     model.eval()
     cum_acc = 0.0
@@ -84,6 +97,8 @@ def attack_model(model, dataloader, vec_arr,label):
         cum_acc += (pred_c.eq(torch.Tensor(np.repeat([label],B,axis=0)))).sum().item()
         tot = tot + B
 
+    save(vec1.clone().detach().cpu(),label,False)
+    save(vec_normal.clone().detach().cpu(), label, True)
     return cum_acc / tot
 
 if __name__ == '__main__':
@@ -111,9 +126,9 @@ if __name__ == '__main__':
     class_num = 10
     model = Model(gpu=GPU,multies=multies,unit=unit)
 
-    for label in range(class_num):
+    for label in [0]:#range(class_num):
         atk_list = []
-        for dup in range(10):
+        for dup in [0]:#range(10):
             model.load_state_dict(torch.load('poison_label_%d-%s-%s-%d.model' % (dup,multies,unit,label)))
             target_vec = np.load('label_%d-%s-%s-%d_vec.npy'%(dup,multies,unit,label))
             atkacc = attack_model(model, testloader, target_vec, label)
