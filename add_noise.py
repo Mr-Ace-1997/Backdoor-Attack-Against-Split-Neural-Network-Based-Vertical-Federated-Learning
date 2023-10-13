@@ -126,9 +126,9 @@ if __name__ == '__main__':
     class_num = 10
     model = Model(gpu=GPU,multies=multies,unit=unit)
 
-    for label in [0]:#range(class_num):
+    for label in range(class_num):
         atk_list = []
-        for dup in [0]:#range(10):
+        for dup in range(10):
             model.load_state_dict(torch.load('poison_label_%d-%s-%s-%d.model' % (dup,multies,unit,label)))
             target_vec = np.load('label_%d-%s-%s-%d_vec.npy'%(dup,multies,unit,label))
             atkacc = attack_model(model, testloader, target_vec, label)
