@@ -66,15 +66,12 @@ class Model(nn.Module):
     def forward(self, x):
         if self.gpu:
             x = x.cuda()
-
         x_list = x.split([int(x.size()[2]*self.unit)]+[int(x.size()[2]*self.other_unit) for i in range(self.multies-2)]+[x.size()[2]-int(x.size()[2]*self.unit)-(self.multies-2)*int(x.size()[2]*self.other_unit)],dim=2)
         x_list = [self.models[i](x_list[i]) for i in range(self.multies)]
         x = torch.cat(x_list,dim=2)
-
         x = self.top(x)
-
         return x
-
+        
     def loss(self, pred, label):
         if self.gpu:
             label = label.cuda()
