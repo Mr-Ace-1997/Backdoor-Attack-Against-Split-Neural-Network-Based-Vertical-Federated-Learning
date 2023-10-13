@@ -69,6 +69,7 @@ if __name__ == '__main__':
 
     BATCH_SIZE = 500
     N_EPOCH = 100
+    
     transform_for_train = transforms.Compose([
         transforms.RandomCrop((32, 32), padding=5),
         transforms.RandomRotation(10),
