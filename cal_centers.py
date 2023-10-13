@@ -141,7 +141,6 @@ def cal_centers(classnum,all_clean_vecs,kernel_bandwidth):
         points, shift_points, cluster = train_mean_shift(data, kernel_bandwidth)
         centers.append(shift_points[0])
     centers = np.array(centers)
-    # np.save("data/centers",centers)
 
     return centers
 
