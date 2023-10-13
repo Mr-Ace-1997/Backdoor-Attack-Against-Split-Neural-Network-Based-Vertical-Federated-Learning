@@ -12,7 +12,6 @@ def cal_distance(point,direct):
     return torch.norm(e,dim=1,p=2)
 
 def euclidean_dist(pointA, pointB):
-    
     total = (pointA - pointB)
     return torch.norm(total,p=2)  
 
